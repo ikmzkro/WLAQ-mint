@@ -3,15 +3,17 @@ pragma solidity ^0.8.9;
 
 import '@openzeppelin/contracts/token/ERC721/ERC721.sol';
 import '@openzeppelin/contracts/utils/Counters.sol';
+import "@openzeppelin/contracts/access/Ownable.sol";
 import {MerkleProof} from '@openzeppelin/contracts/utils/cryptography/MerkleProof.sol';
 
-contract ExcitedApeYachtClub is ERC721 {
+contract WLAQ is ERC721, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
     bytes32 public merkleRoot;
 
-    constructor(bytes32 merkleRoot_) ERC721('Excited Ape Yacht Club', 'EAYC') {
+    // デプロイ時に計算結果のマークルルートをデプロイする
+    constructor(bytes32 merkleRoot_) ERC721('Zutto Mayonakade Iinoni', 'ZTMY') {
         merkleRoot = merkleRoot_;
     }
 
@@ -25,5 +27,13 @@ contract ExcitedApeYachtClub is ERC721 {
 
             _tokenIds.increment();
         }
+    }
+
+    function setMerkleRoot(bytes32 _merkleRoot) public onlyOwner {
+        merkleRoot = _merkleRoot;
+    }
+
+    function getMerkleRoot() external view returns (bytes32) {
+        return merkleRoot;
     }
 }
