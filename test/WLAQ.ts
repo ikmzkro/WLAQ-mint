@@ -9,9 +9,10 @@ import { makeUsers, usersQuantity } from '../utils/data';
 
 describe('WLAQ', function () {
   async function createTestFixture() {
-    const merkleTreeData = await makeMerkleTree();
-    const users = await makeUsers();
+    const merkleTreeData = await makeMerkleTree('default');
     const { root } = merkleTreeData;
+
+    const users = await makeUsers();
 
     const WLAQ = await ethers.getContractFactory(
       'WLAQ'
@@ -44,25 +45,21 @@ describe('WLAQ', function () {
     it("[S] Should set the Merkle Root correctly by Contract deployer", async function () {
       // Verify if the Merkle Root is set correctly
       const { root } = this.merkleTreeData;
-      console.log('root', root);
       expect(await this.wLAQ.getMerkleRoot()).to.equal(root);
     });
 
     it("[R] Should not allow setting Merkle Root by Owner", async function () {
       // Attempt to set the Merkle Root by a notOwner
-      const { root } = this.merkleTreeData;
+      const { initialMerkleRoot } = this.merkleTreeData;
+      console.log('The initial Merkle root at the time of contract deployment', initialMerkleRoot);
+
       // If the root value changes during operation
-
-      // const res1 = await this.wLAQ.getMerkleRoot()
-      // console.log('res1', res1);
-
+      const merkleTreeData = await makeMerkleTree('operation');
+      const { root } = merkleTreeData;
       await
         this.wLAQ
           .connect(this.users.owner)
           .setMerkleRoot(root)
-
-      // const res2 = await this.wLAQ.getMerkleRoot()
-      // console.log('res2', res2);
       expect(await this.wLAQ.getMerkleRoot()).to.equal(root);
     });
 

@@ -1,14 +1,8 @@
 
 ## Introduction
 
-## Quick start 
-```shell
-npm i
-npx hardhat test
-```
-
-## Test
-1. Clone this repository: `git@github.com:ikmzkRo/whitelist-address-quantity-mint.git`
+## Quick start
+1. Clone this repository: `git clone git@github.com:ikmzkRo/WLAQ-mint.gitt`
 2. Install packages: `yarn`
 3. Add `.env` file
 ```

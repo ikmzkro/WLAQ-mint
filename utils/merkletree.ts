@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat';
 import keccak256 from 'keccak256';
 import { MerkleTree } from 'merkletreejs';
-import { makeInputs, usernames, usersQuantity } from './data';
+import { makeInputs, usernames, usernamesOperation, usersQuantity, usersQuantityOperation } from './data';
 
 import { Leaves, MerkleTreeData, Input, Inputs, Proofs } from './interfaces';
 
@@ -33,11 +33,17 @@ const makeProofs = (merkleTree: MerkleTree, users: Inputs, leaves: Leaves) => {
   }, {} as Proofs);
 };
 
-export const makeMerkleTree = async (): Promise<MerkleTreeData> => {
-  const inputs = await makeInputs(usernames, usersQuantity);
+
+export const makeMerkleTree = async (flug: string): Promise<MerkleTreeData> => {
+  // default or operation
+  const inputs = flug === 'default'
+    ? await makeInputs(usernames, usersQuantity)
+    : await makeInputs(usernamesOperation, usersQuantityOperation);
   console.log('inputs', inputs);
+
   const leaves = makeLeaves(inputs);
   console.log('leaves', leaves);
+
   const leavesValue = Object.values(leaves);
   console.log('leavesValue', leavesValue);
 

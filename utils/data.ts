@@ -3,10 +3,19 @@ import { Inputs, Usernames, Users, UsersQuantity } from './interfaces';
 
 export const usernames: Usernames = ['owner', 'alice', 'bob', 'carol', 'david'];
 
+export const usernamesOperation: Usernames = ['owner', 'alice', 'bob', 'carol', 'david', 'elen'];
+
 export const usersQuantity: UsersQuantity = {
   alice: 1,
   bob: 2,
   carol: 1,
+};
+
+export const usersQuantityOperation: UsersQuantity = {
+  alice: 1,
+  bob: 2,
+  carol: 3,
+  elen: 4
 };
 
 export const makeUsers = async (): Promise<Users> => {
