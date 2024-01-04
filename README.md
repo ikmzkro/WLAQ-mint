@@ -4,7 +4,15 @@
 ## Quick start
 1. Clone this repository: `git clone git@github.com:ikmzkRo/WLAQ-mint.gitt`
 2. Install packages: `npm i` or `yarn`
-3. Compile solidity code: `yarn run compile`
+3. Add `.env` file
+```
+PRIVATE_KEY = ""
+ALCHEMY_API_KEY = ""
+ETHERSCAN_API_KEY = ""
+COINMARKETCAP_API_KEY = ""
+REPORT_GAS = "true"
+```
+4. Compile solidity code: `yarn run compile`
 ```
 yarn run v1.22.21
 $ hardhat compile
