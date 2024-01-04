@@ -32,26 +32,47 @@ describe('WLAQ', function () {
   describe('Deployment', function () {
     it('Should return correct name and symbol', async function () {
       expect(await this.wLAQ.name()).to.equal(
-        'Excited Ape Yacht Club'
+        'Zutto Mayonakade Iinoni'
       );
-      expect(await this.wLAQ.symbol()).to.equal('EAYC');
+      expect(await this.wLAQ.symbol()).to.equal('ZTMY');
     });
   });
 
   // TODO: setMerkleRoot, getMerkleRoot, onlyOwner
   // https://github.com/ikmzkRo/whitelist-address-quantity-mint/blob/main/test/IkmzERC721WLAQ.test.ts
   describe("setMerkleRoot check", () => {
-    it("[S] Should set the Merkle Root correctly by Owner", async function () {
+    it("[S] Should set the Merkle Root correctly by Contract deployer", async function () {
       // Verify if the Merkle Root is set correctly
-      expect(await this.wLAQ.getMerkleRoot()).to.equal(rootHashHexString);
+      const { root } = this.merkleTreeData;
+      console.log('root', root);
+      expect(await this.wLAQ.getMerkleRoot()).to.equal(root);
+    });
+
+    it("[R] Should not allow setting Merkle Root by Owner", async function () {
+      // Attempt to set the Merkle Root by a notOwner
+      const { root } = this.merkleTreeData;
+      // If the root value changes during operation
+
+      // const res1 = await this.wLAQ.getMerkleRoot()
+      // console.log('res1', res1);
+
+      await
+        this.wLAQ
+          .connect(this.users.owner)
+          .setMerkleRoot(root)
+
+      // const res2 = await this.wLAQ.getMerkleRoot()
+      // console.log('res2', res2);
+      expect(await this.wLAQ.getMerkleRoot()).to.equal(root);
     });
 
     it("[R] Should not allow setting Merkle Root by notOwner", async function () {
       // Attempt to set the Merkle Root by a notOwner
+      const { root } = this.merkleTreeData;
       await expect(
         this.wLAQ
-          .connect(notOwner)
-          .setMerkleRoot(rootHashHexString)
+          .connect(this.users.alice)
+          .setMerkleRoot(root)
       ).to.be.revertedWith("Ownable: caller is not the owner");
     });
   });

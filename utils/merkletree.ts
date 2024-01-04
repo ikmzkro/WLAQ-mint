@@ -35,10 +35,11 @@ const makeProofs = (merkleTree: MerkleTree, users: Inputs, leaves: Leaves) => {
 
 export const makeMerkleTree = async (): Promise<MerkleTreeData> => {
   const inputs = await makeInputs(usernames, usersQuantity);
-
+  console.log('inputs', inputs);
   const leaves = makeLeaves(inputs);
-
+  console.log('leaves', leaves);
   const leavesValue = Object.values(leaves);
+  console.log('leavesValue', leavesValue);
 
   const merkleTree = new MerkleTree(leavesValue, keccak256, { sort: true });
 
