@@ -7,51 +7,59 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 // npx hardhat verify --network goerli 0x9B97b7bDEFa32b9a26f1Cf27459bcC18281938Ac
 // https://goerli.etherscan.io/address/0x9B97b7bDEFa32b9a26f1Cf27459bcC18281938Ac#writeContract
 
-// TODO: https://github.com/ikmzkRo/whitelist-address-quantity-mint/blob/main/scripts/deploy/IkmzERC721WLAQ..ts
+// TODO: https://github.com/ikmzkRo/whitelist-address-quantity-mint/blob/main/scripts/deploy/WLAQ..ts
 
 async function main() {
-  let whitelistAddresses = [
-    "0X5B38DA6A701C568545DCFCB03FCB875F56BEDDC4",
-    "0X5A641E5FB72A2FD9137312E7694D42996D689D99",
-    "0XDCAB482177A592E424D1C8318A464FC922E8DE40",
-    "0X6E21D37E07A6F7E53C7ACE372CEC63D4AE4B6BD0",
-    "0X09BAAB19FC77C19898140DADD30C4685C597620B",
-    "0XCC4C29997177253376528C05D3DF91CF2D69061A",
-    "0xa2fb2553e57436b455F57270Cc6f56f6dacDA1a5"
+
+  let inputs = [
+    {
+      address: '0x70997970C51812dc3A010C7d01b50e0d17dc79C8',
+      quantity: 1
+    },
+    {
+      address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
+      quantity: 2
+    },
+    {
+      address: '0xa2fb2553e57436b455F57270Cc6f56f6dacDA1a5',
+      quantity: 3
+    }
   ];
 
-  const leafNodes = whitelistAddresses.map(addr => keccak256(addr));
+  const leafNodes = inputs.map(entry => keccak256(entry.address + entry.quantity));
   const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true });
+
   const allowlistRootHash = merkleTree.getRoot();
-  console.log('allowlistRootHash', allowlistRootHash);
+
   const allowlistRootHashHexString = "0x" + allowlistRootHash.toString("hex");
-  console.log('allowlistRootHashHexString', allowlistRootHashHexString);
-  const claimingAddress = leafNodes[6];
-  const hexProof = merkleTree.getHexProof(claimingAddress);
+
+  // admin
+  const claimingAddressQuantity = leafNodes[2];
+
+  const hexProof = merkleTree.getHexProof(claimingAddressQuantity);
   // Log the Ethereum address for which the Merkle Proof is being verified.
-  console.log('Claiming Address:', claimingAddress);
+  console.log('claimingAddressQuantity', claimingAddressQuantity);
   // Log the calculated Merkle Root based on the whitelist.
   console.log('Allowlist Root Hash:', allowlistRootHash);
   // Log the result of the verification, indicating whether the Merkle Proof is valid for the claiming address.
-  console.log('Verification Result:', merkleTree.verify(hexProof, claimingAddress, allowlistRootHash));
+  console.log('Verification Result:', merkleTree.verify(hexProof, claimingAddressQuantity, allowlistRootHash));
 
-  console.log('',);
+  console.log('(; ･`д･´)');
 
+  // const WLAQFactory = await ethers.getContractFactory("WLAQ");
+  // const WLAQ = await WLAQFactory.deploy(allowlistRootHashHexString);
 
-  const IkmzERC721WLFactory = await ethers.getContractFactory("IkmzERC721WL");
-  const IkmzERC721WL = await IkmzERC721WLFactory.deploy();
+  // console.log("WLAQ deployed to:", `https://goerli.etherscan.io/address/${WLAQ.target}`);
 
-  console.log("IkmzERC721WL deployed to:", `https://goerli.etherscan.io/address/${IkmzERC721WL.target}`);
-
-  let owner: SignerWithAddress;
-  try {
-    [owner] = await ethers.getSigners();
-    await IkmzERC721WL.connect(owner).setMerkleRoot(allowlistRootHashHexString);
-    const res = await IkmzERC721WL.getMerkleRoot()
-    console.log("MerkleRoot is correctly set:", res);
-  } catch (error) {
-    console.log('error', error)
-  }
+  // let owner: SignerWithAddress;
+  // try {
+  //   [owner] = await ethers.getSigners();
+  //   const res = await WLAQ.getMerkleRoot()
+  //   console.log("MerkleRoot is correctly set:", res);
+  //   console.log('allowlistRootHashHexString', allowlistRootHashHexString);
+  // } catch (error) {
+  //   console.log('error', error)
+  // }
 
 }
 
