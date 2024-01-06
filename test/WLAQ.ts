@@ -4,9 +4,6 @@ import { ethers } from 'hardhat';
 import { makeMerkleTree } from '../utils/merkletree';
 import { makeUsers, usersQuantity } from '../utils/data';
 
-// https://github.com/peterblockman/merkle-tree-nft-whitelist/tree/feat/simple
-// https://dev.to/peterblockman/understand-merkle-tree-by-making-a-nft-minting-whitelist-1148#step-4--verify-users--address-and-quantity
-
 describe('WLAQ', function () {
   async function createTestFixture() {
     const merkleTreeData = await makeMerkleTree('default');
