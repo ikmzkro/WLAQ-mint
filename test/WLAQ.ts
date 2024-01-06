@@ -39,8 +39,6 @@ describe('WLAQ', function () {
     });
   });
 
-  // TODO: setMerkleRoot, getMerkleRoot, onlyOwner
-  // https://github.com/ikmzkRo/whitelist-address-quantity-mint/blob/main/test/IkmzERC721WLAQ.test.ts
   describe("setMerkleRoot check", () => {
     it("[S] Should set the Merkle Root correctly by Contract deployer", async function () {
       // Verify if the Merkle Root is set correctly
