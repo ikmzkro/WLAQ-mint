@@ -5,9 +5,6 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 
 // npx hardhat run scripts/deploy.ts --network goerli
 // npx hardhat verify --network goerli 0x9B97b7bDEFa32b9a26f1Cf27459bcC18281938Ac
-// https://goerli.etherscan.io/address/0x9B97b7bDEFa32b9a26f1Cf27459bcC18281938Ac#writeContract
-
-// TODO: https://github.com/ikmzkRo/whitelist-address-quantity-mint/blob/main/scripts/deploy/WLAQ..ts
 
 async function main() {
 
@@ -46,20 +43,20 @@ async function main() {
 
   console.log('(; ･`д･´)');
 
-  // const WLAQFactory = await ethers.getContractFactory("WLAQ");
-  // const WLAQ = await WLAQFactory.deploy(allowlistRootHashHexString);
+  const WLAQFactory = await ethers.getContractFactory("WLAQ");
+  const WLAQ = await WLAQFactory.deploy(allowlistRootHashHexString);
 
-  // console.log("WLAQ deployed to:", `https://goerli.etherscan.io/address/${WLAQ.target}`);
+  console.log("WLAQ deployed to:", `https://goerli.etherscan.io/address/${WLAQ.target}`);
 
-  // let owner: SignerWithAddress;
-  // try {
-  //   [owner] = await ethers.getSigners();
-  //   const res = await WLAQ.getMerkleRoot()
-  //   console.log("MerkleRoot is correctly set:", res);
-  //   console.log('allowlistRootHashHexString', allowlistRootHashHexString);
-  // } catch (error) {
-  //   console.log('error', error)
-  // }
+  let owner: SignerWithAddress;
+  try {
+    [owner] = await ethers.getSigners();
+    const res = await WLAQ.getMerkleRoot()
+    console.log("MerkleRoot is correctly set:", res);
+    console.log('allowlistRootHashHexString', allowlistRootHashHexString);
+  } catch (error) {
+    console.log('error', error)
+  }
 
 }
 

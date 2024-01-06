@@ -52,6 +52,7 @@ export const makeMerkleTree = async (flug: string): Promise<MerkleTreeData> => {
   const root = merkleTree.getHexRoot();
 
   const proofs = makeProofs(merkleTree, inputs, leaves);
+  console.log('proofs', proofs);
 
   return {
     root,
