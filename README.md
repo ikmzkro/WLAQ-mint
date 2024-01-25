@@ -2,7 +2,7 @@
 ## Introduction
 
 ## Quick start
-1. Clone this repository: `git clone git@github.com:ikmzkRo/WLAQ-mint.gitt`
+1. Clone this repository: `git clone git@github.com:ikmzkRo/WLAQ-mint.git`
 2. Install packages: `npm i` or `yarn`
 3. Add `.env` file
 ```
